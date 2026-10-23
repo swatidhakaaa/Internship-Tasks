@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LingoPulse - Language Learning App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <span>LingoPulse</span>
+    </div>
+
+    <div class="lang-selector-wrapper">
+      <label for="langSelect"><i class="fa-solid fa-globe"></i> Target Language:</label>
+      <select id="langSelect" onchange="changeLanguage()">
+        <option value="es">🇪🇸 Spanish</option>
+        <option value="fr">🇫🇷 French</option>
+        <option value="de">🇩🇪 German</option>
+        <option value="ja">🇯🇵 Japanese</option>
+        <option value="hi">🇮🇳 Hindi</option>
+      </select>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-badge streak-badge" title="Daily Streak">
+        <i class="fa-solid fa-fire"></i>
+        <span id="streakCount">3</span>
+      </div>
+      <div class="stat-badge xp-badge" title="Total XP">
+        <i class="fa-solid fa-bolt"></i>
+        <span id="xpCount">240</span> XP
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Layout -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <nav class="nav-menu">
+        <button class="nav-btn active" onclick="switchTab('dashboard')">
+          <i class="fa-solid fa-house"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('flashcards')">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Flashcards</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('quiz')">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Quiz Practice</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('dictionary')">
+          <i class="fa-solid fa-book-bookmark"></i>
+          <span>Vocabulary</span>
+        </button>
+      </nav>
+      
+      <div class="daily-goal-card">
+        <h4><i class="fa-solid fa-bullseye"></i> Daily Goal</h4>
+        <div class="progress-bar">
+          <div class="progress-fill" id="dailyProgress" style="width: 60%;"></div>
+        </div>
+        <p><span id="wordsLearned">6</span> / 10 Words Learned Today</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Panels -->
+    <main class="main-content">
+
+      <!-- 1. DASHBOARD TAB -->
+      <section id="dashboard" class="tab-panel active">
+        <div class="welcome-card">
+          <h2>Welcome back! 👋</h2>
+          <p>Ready to level up your language skills today? Pick a category to start practicing.</p>
+        </div>
+
+        <h3 class="section-title">Categories</h3>
+        <div class="category-grid">
+          <div class="category-card" onclick="startCategory('greetings')">
+            <div class="cat-icon" style="background-color: #E0F2FE; color: #0284C7;">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <div class="cat-info">
+              <h4>Greetings & Basics</h4>
+              <p>15 Words & Phrases</p>
+            </div>
+          </div>
+
+          <div class="category-card" onclick="startCategory('travel')">
+            <div class="cat-icon" style="background-color: #FEF3C7; color: #D97706;">
+              <i class="fa-solid fa-plane"></i>
+            </div>
+            <div class="cat-info">
+              <h4>Travel & Directions</h4>
+              <p>20 Words & Phrases</p>
+            </div>
+          </div>
+
+          <div class="category-card" onclick="startCategory('food')">
+            <div class="cat-icon" style="background-color: #DCFCE7; color: #16A34A;">
+              <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div class="cat-info">
+              <h4>Food & Dining</h4>
+              <p>18 Words & Phrases</p>
+            </div>
+          </div>
+
+          <div class="category-card" onclick="startCategory('grammar')">
+            <div class="cat-icon" style="background-color: #F3E8FF; color: #9333EA;">
+              <i class="fa-solid fa-spell-check"></i>
+            </div>
+            <div class="cat-info">
+              <h4>Essential Grammar</h4>
+              <p>12 Rules & Examples</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. FLASHCARDS TAB -->
+      <section id="flashcards" class="tab-panel">
+        <div class="panel-header">
+          <h3>Interactive Flashcards</h3>
+          <p>Click on the card to flip and hear pronunciation.</p>
+        </div>
+
+        <div class="flashcard-container">
+          <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-category">Greetings</span>
+                <h2 id="cardWord">Hola</h2>
+                <button class="audio-btn" onclick="speakCurrentWord(event)">
+                  <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <p class="hint">Click to reveal translation</p>
+              </div>
+              <div class="card-back">
+                <span class="card-category">Translation</span>
+                <h2 id="cardTranslation">Hello</h2>
+                <p id="cardExample">"¡Hola! ¿Cómo estás?"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard-controls">
+          <button class="control-btn" onclick="prevCard()"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+          <span id="cardCounter">1 / 5</span>
+          <button class="control-btn primary" onclick="nextCard()">Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </section>
+
+      <!-- 3. QUIZ PRACTICE TAB -->
+      <section id="quiz" class="tab-panel">
+        <div class="quiz-card">
+          <div class="quiz-header">
+            <span class="quiz-badge">Multiple Choice</span>
+            <span class="quiz-score">Score: <strong id="scoreVal">0</strong></span>
+          </div>
+
+          <h3 id="quizQuestion">What is the translation for "Hola"?</h3>
+
+          <div class="quiz-options" id="quizOptions">
+            <button class="option-btn" onclick="checkAnswer(this, false)">Goodbye</button>
+            <button class="option-btn" onclick="checkAnswer(this, true)">Hello</button>
+            <button class="option-btn" onclick="checkAnswer(this, false)">Thank you</button>
+            <button class="option-btn" onclick="checkAnswer(this, false)">Please</button>
+          </div>
+
+          <div class="quiz-footer">
+            <button class="control-btn primary" id="nextQuizBtn" onclick="nextQuizQuestion()" style="display:none;">Next Question <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. VOCABULARY TAB -->
+      <section id="dictionary" class="tab-panel">
+        <div class="panel-header">
+          <h3>Saved Vocabulary</h3>
+          <p>Review key terms and practice pronunciation anytime.</p>
+        </div>
+
+        <div class="vocab-table-wrapper">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th>Word / Phrase</th>
+                <th>Translation</th>
+                <th>Category</th>
+                <th>Listen</th>
+              </tr>
+            </thead>
+            <tbody id="vocabList">
+              <tr>
+                <td><strong>Hola</strong></td>
+                <td>Hello</td>
+                <td><span class="tag">Greetings</span></td>
+                <td><button class="icon-btn" onclick="speakText('Hola', 'es')"><i class="fa-solid fa-volume-high"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>Gracias</strong></td>
+                <td>Thank you</td>
+                <td><span class="tag">Greetings</span></td>
+                <td><button class="icon-btn" onclick="speakText('Gracias', 'es')"><i class="fa-solid fa-volume-high"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>Por favor</strong></td>
+                <td>Please</td>
+                <td><span class="tag">Basics</span></td>
+                <td><button class="icon-btn" onclick="speakText('Por favor', 'es')"><i class="fa-solid fa-volume-high"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>¿Dónde está...?</strong></td>
+                <td>Where is...?</td>
+                <td><span class="tag">Travel</span></td>
+                <td><button class="icon-btn" onclick="speakText('Dónde está', 'es')"><i class="fa-solid fa-volume-high"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

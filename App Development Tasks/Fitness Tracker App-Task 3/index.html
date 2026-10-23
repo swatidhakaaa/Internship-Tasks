@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseFit - Fitness Tracker</title>
+  
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js CDN for Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <i class="fa-solid fa-bolt logo-icon"></i>
+        <span>Pulse<span class="highlight">Fit</span></span>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-link active" data-tab="dashboard">
+          <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </button>
+        <button class="nav-link" data-tab="history">
+          <i class="fa-solid fa-list-check"></i> Activity Log
+        </button>
+        <button class="nav-link" data-tab="analytics">
+          <i class="fa-solid fa-chart-line"></i> Analytics
+        </button>
+        <button class="nav-link" data-tab="goals">
+          <i class="fa-solid fa-trophy"></i> Goals & Badges
+        </button>
+      </nav>
+
+      <div class="user-badge">
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-info">
+          <div class="user-name">Alex Johnson</div>
+          <div class="streak-count"><i class="fa-solid fa-fire icon-fire"></i> <span id="streakDays">5</span> Day Streak</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Header Bar -->
+      <header class="top-bar">
+        <div>
+          <h1 id="pageTitle">Dashboard Overview</h1>
+          <p class="subtitle">Track your progress and stay consistent today!</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn btn-secondary" id="quickWaterBtn"><i class="fa-solid fa-glass-water"></i> +250ml Water</button>
+          <button class="btn btn-secondary" id="quickStepBtn"><i class="fa-solid fa-shoe-prints"></i> +1,000 Steps</button>
+          <button class="btn btn-primary" id="openModalBtn"><i class="fa-solid fa-plus"></i> Log Activity</button>
+        </div>
+      </header>
+
+      <!-- TAB 1: DASHBOARD -->
+      <section id="dashboardTab" class="tab-content active">
+        <!-- Rings / Goal Cards Grid -->
+        <div class="cards-grid">
+          
+          <!-- Steps Card -->
+          <div class="card card-stat">
+            <div class="card-info">
+              <span class="card-title">Daily Steps</span>
+              <div class="card-value" id="valSteps">0</div>
+              <span class="card-sub" id="subSteps">Goal: 10,000</span>
+            </div>
+            <div class="ring-container">
+              <svg viewBox="0 0 100 100" class="ring-svg">
+                <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                <circle class="ring-bar ring-steps" id="ringSteps" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+              </svg>
+              <div class="ring-icon text-steps"><i class="fa-solid fa-shoe-prints"></i></div>
+            </div>
+          </div>
+
+          <!-- Calories Card -->
+          <div class="card card-stat">
+            <div class="card-info">
+              <span class="card-title">Calories Burned</span>
+              <div class="card-value" id="valCalories">0</div>
+              <span class="card-sub" id="subCalories">Goal: 2,200 kcal</span>
+            </div>
+            <div class="ring-container">
+              <svg viewBox="0 0 100 100" class="ring-svg">
+                <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                <circle class="ring-bar ring-calories" id="ringCalories" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+              </svg>
+              <div class="ring-icon text-calories"><i class="fa-solid fa-fire-flame-curved"></i></div>
+            </div>
+          </div>
+
+          <!-- Active Time Card -->
+          <div class="card card-stat">
+            <div class="card-info">
+              <span class="card-title">Active Time</span>
+              <div class="card-value" id="valMinutes">0 <span style="font-size: 1rem; color: #a1a1aa;">min</span></div>
+              <span class="card-sub" id="subMinutes">Goal: 60 mins</span>
+            </div>
+            <div class="ring-container">
+              <svg viewBox="0 0 100 100" class="ring-svg">
+                <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                <circle class="ring-bar ring-minutes" id="ringMinutes" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+              </svg>
+              <div class="ring-icon text-minutes"><i class="fa-solid fa-clock"></i></div>
+            </div>
+          </div>
+
+          <!-- Hydration Card -->
+          <div class="card card-stat">
+            <div class="card-info">
+              <span class="card-title">Hydration</span>
+              <div class="card-value" id="valWater">0 <span style="font-size: 1rem; color: #a1a1aa;">ml</span></div>
+              <span class="card-sub" id="subWater">Goal: 2,500 ml</span>
+            </div>
+            <div class="ring-container">
+              <svg viewBox="0 0 100 100" class="ring-svg">
+                <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                <circle class="ring-bar ring-water" id="ringWater" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+              </svg>
+              <div class="ring-icon text-water"><i class="fa-solid fa-droplet"></i></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Weekly Activity Trend Chart Section -->
+        <div class="card chart-card">
+          <div class="chart-header">
+            <div>
+              <h3>7-Day Progress Trends</h3>
+              <p class="subtitle" style="font-size: 0.825rem;">Compare your calories burned vs daily active steps</p>
+            </div>
+            <div class="filter-pills">
+              <button class="pill active" id="chartViewCal">Calories</button>
+              <button class="pill" id="chartViewSteps">Steps</button>
+            </div>
+          </div>
+          <div style="position: relative; height: 260px; width: 100%;">
+            <canvas id="weeklyChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: HISTORY LOG -->
+      <section id="historyTab" class="tab-content">
+        <div class="card">
+          <div class="table-controls">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchInput" placeholder="Search workout logs...">
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <select id="filterCategory" class="form-control" style="width: auto;">
+                <option value="ALL">All Categories</option>
+                <option value="Cardio">Cardio</option>
+                <option value="Strength">Strength</option>
+                <option value="Flexibility">Flexibility</option>
+                <option value="Steps">Steps Track</option>
+                <option value="Hydration">Hydration Log</option>
+              </select>
+            </div>
+          </div>
+
+          <table class="table" id="activityTable">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Activity Name</th>
+                <th>Category</th>
+                <th>Duration</th>
+                <th>Calories</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <!-- Dynamically Populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 3: ANALYTICS -->
+      <section id="analyticsTab" class="tab-content">
+        <div class="cards-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="card">
+            <h3>Activity Distribution</h3>
+            <p class="subtitle" style="margin-bottom: 1rem; font-size: 0.85rem;">Breakdown of workouts logged by category</p>
+            <div style="position: relative; height: 260px;">
+              <canvas id="categoryDoughnutChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3>Monthly Summary Metrics</h3>
+              <p class="subtitle" style="margin-bottom: 1.5rem; font-size: 0.85rem;">Overall total calculations</p>
+              
+              <div class="summary-box">
+                <div>Total Workouts Logged</div>
+                <div class="value" id="summaryTotalCount">0</div>
+              </div>
+              <div class="summary-box">
+                <div>Total Calories Burned</div>
+                <div class="value" id="summaryTotalCalories">0 kcal</div>
+              </div>
+              <div class="summary-box">
+                <div>Total Active Time</div>
+                <div class="value" id="summaryTotalTime">0 hrs</div>
+              </div>
+            </div>
+            
+            <button class="btn btn-secondary" id="resetDataBtn" style="color: #ef4444; border-color: rgba(239,68,68,0.2); width: 100%; justify-content: center;">
+              <i class="fa-solid fa-trash"></i> Reset All Saved Data
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: GOALS & BADGES -->
+      <section id="goalsTab" class="tab-content">
+        <div class="cards-grid" style="grid-template-columns: 1fr 1fr;">
+          <!-- Goals Settings -->
+          <div class="card">
+            <h3>Customize Daily Goals</h3>
+            <p class="subtitle" style="margin-bottom: 1.25rem;">Adjust your targets to challenge yourself</p>
+            
+            <form id="goalsForm">
+              <div class="form-group">
+                <label>Daily Step Target</label>
+                <input type="number" id="goalStepsInput" class="form-control" min="1000" step="500">
+              </div>
+              <div class="form-group">
+                <label>Daily Calorie Target (kcal)</label>
+                <input type="number" id="goalCalInput" class="form-control" min="500" step="50">
+              </div>
+              <div class="form-group">
+                <label>Active Minutes Target</label>
+                <input type="number" id="goalMinInput" class="form-control" min="10" step="5">
+              </div>
+              <div class="form-group">
+                <label>Water Target (ml)</label>
+                <input type="number" id="goalWaterInput" class="form-control" min="500" step="250">
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                <i class="fa-solid fa-floppy-disk"></i> Save New Targets
+              </button>
+            </form>
+          </div>
+
+          <!-- Achievement Badges -->
+          <div class="card">
+            <h3>Milestone Achievements</h3>
+            <p class="subtitle" style="margin-bottom: 1.25rem;">Badges unlock automatically as you log workouts</p>
+
+            <div class="badge-grid">
+              <div class="badge-card" id="badgeStreak">
+                <div class="badge-icon"><i class="fa-solid fa-fire"></i></div>
+                <div class="badge-title">On Fire</div>
+                <div class="badge-desc">Maintain a 3-day active streak</div>
+              </div>
+              <div class="badge-card" id="badgeStepMaster">
+                <div class="badge-icon"><i class="fa-solid fa-shoe-prints"></i></div>
+                <div class="badge-title">Step Champion</div>
+                <div class="badge-desc">Reach 10,000 steps in a single day</div>
+              </div>
+              <div class="badge-card" id="badgeCalorieBurner">
+                <div class="badge-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="badge-title">Calorie Crusher</div>
+                <div class="badge-desc">Burn over 500 kcal in a single workout</div>
+              </div>
+              <div class="badge-card" id="badgeHydrated">
+                <div class="badge-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="badge-title">Hydration Hero</div>
+                <div class="badge-desc">Hit your daily water goal</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ADD ACTIVITY MODAL -->
+  <div class="modal-backdrop" id="activityModal">
+    <div class="modal card">
+      <div class="modal-header">
+        <h3>Log New Activity</h3>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <form id="logActivityForm">
+        <div class="form-group">
+          <label>Activity Type</label>
+          <select id="activityType" class="form-control" required>
+            <option value="Running">Running (High Intensity)</option>
+            <option value="Cycling">Cycling</option>
+            <option value="Swimming">Swimming</option>
+            <option value="Gym Workout">Gym / Weightlifting</option>
+            <option value="Yoga">Yoga / Stretching</option>
+            <option value="Brisk Walking">Brisk Walking</option>
+            <option value="Custom">Custom Exercise</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="customTitleGroup" style="display: none;">
+          <label>Custom Title</label>
+          <input type="text" id="customTitleInput" class="form-control" placeholder="e.g. HIIT Class, Basketball">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Duration (Minutes)</label>
+            <input type="number" id="activityDuration" class="form-control" value="30" min="1" required>
+          </div>
+          <div class="form-group">
+            <label>Estimated Calories</label>
+            <input type="number" id="activityCalories" class="form-control" placeholder="Auto-calculated">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="activityCategory" class="form-control">
+            <option value="Cardio">Cardio</option>
+            <option value="Strength">Strength</option>
+            <option value="Flexibility">Flexibility</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Date & Time</label>
+          <input type="datetime-local" id="activityDate" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+          <i class="fa-solid fa-check"></i> Save Activity Log
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- External Script -->
+  <script src="script.js"></script>
+</body>
+</html>

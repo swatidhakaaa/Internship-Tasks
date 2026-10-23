@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.quote-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.quote-icon {
+    font-size: 60px;
+    color: #4f46e5;
+    line-height: 1;
+    margin-bottom: -10px;
+    opacity: 0.2;
+}
+
+#quote-container {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #1f2937;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+#quote-author {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+}
+
+#new-quote-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+#new-quote-btn:hover {
+    background: #4338ca;
+}
+
+#new-quote-btn:active {
+    transform: scale(0.98);
+}
