@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart FAQ Assistant</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="logo">
+      <i class="fa-solid fa-robot"></i>
+      <h2>FAQ AI Chatbot</h2>
+    </div>
+
+    <div class="header-controls">
+      <div class="topic-selector">
+        <label for="faqCategory"><i class="fa-solid fa-folder"></i> Topic:</label>
+        <select id="faqCategory">
+          <option value="ecommerce">E-Commerce Store</option>
+          <option value="saas">SaaS Tech Platform</option>
+          <option value="university">University Admissions</option>
+        </select>
+      </div>
+
+      <button id="themeToggleBtn" class="icon-btn" title="Toggle Dark/Light Mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+
+      <button id="toggleDebugBtn" class="icon-btn" title="Toggle Vector & NLP Inspector">
+        <i class="fa-solid fa-code"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- Left / Top: Chat Interface -->
+    <section class="chat-section">
+      <div class="chat-header">
+        <div class="bot-info">
+          <div class="status-indicator online"></div>
+          <div>
+            <h3>Support Assistant</h3>
+            <span class="status-text">NLP & Cosine Similarity Powered</span>
+          </div>
+        </div>
+        <button id="clearChatBtn" class="text-btn">
+          <i class="fa-solid fa-trash-can"></i> Clear Chat
+        </button>
+      </div>
+
+      <!-- Quick Suggestion Chips -->
+      <div class="suggestion-chips" id="suggestionChips">
+        <!-- Dynamically injected chips -->
+      </div>
+
+      <!-- Messages Window -->
+      <div class="chat-messages" id="chatMessages">
+        <!-- Chat bubbles populated dynamically -->
+      </div>
+
+      <!-- Input Bar -->
+      <form id="chatForm" class="chat-input-area">
+        <input 
+          type="text" 
+          id="userInput" 
+          placeholder="Ask a question (e.g., 'What is your return policy?')..." 
+          autocomplete="off"
+          required
+        />
+        <button type="submit" id="sendBtn">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </section>
+
+    <!-- Right / Bottom: NLP & Similarity Inspector -->
+    <aside class="inspector-section" id="inspectorSection">
+      <div class="inspector-header">
+        <h3><i class="fa-solid fa-microscope"></i> NLP & Cosine Similarity Inspector</h3>
+      </div>
+
+      <div class="inspector-content">
+        <!-- Tokenization & Cleaning breakdown -->
+        <div class="inspect-card">
+          <h4>Input Text Preprocessing</h4>
+          <div class="inspect-item">
+            <span class="label">Raw User Input:</span>
+            <span class="value highlight" id="inspectRawText">-</span>
+          </div>
+          <div class="inspect-item">
+            <span class="label">Cleaned & Tokenized:</span>
+            <span class="value" id="inspectTokens">-</span>
+          </div>
+          <div class="inspect-item">
+            <span class="label">Stemmed Terms:</span>
+            <span class="value" id="inspectStemmed">-</span>
+          </div>
+        </div>
+
+        <!-- Similarity Ranking Results -->
+        <div class="inspect-card">
+          <h4>Top Similarity Scores</h4>
+          <p class="inspect-desc">Calculated via TF-IDF Vectorization & Cosine Similarity matrix</p>
+          
+          <div class="similarity-list" id="similarityList">
+            <div class="empty-state">Ask a question in the chat to view mathematical similarity scoring.</div>
+          </div>
+        </div>
+
+        <!-- Dynamic FAQ Knowledge Base Inspector -->
+        <div class="inspect-card">
+          <div class="kb-header">
+            <h4>Knowledge Base (<span id="faqCount">0</span>)</h4>
+            <button id="openFaqModalBtn" class="sm-btn">
+              <i class="fa-solid fa-plus"></i> Add FAQ
+            </button>
+          </div>
+          <div class="faq-list-mini" id="faqListMini">
+            <!-- FAQ items injected via JS -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Modal: Add / Edit FAQ Item -->
+  <div class="modal-overlay" id="faqModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New FAQ Item</h3>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+      <form id="faqForm">
+        <div class="form-group">
+          <label for="faqQuestion">Question:</label>
+          <input type="text" id="faqQuestion" placeholder="e.g., How do I track my order?" required />
+        </div>
+        <div class="form-group">
+          <label for="faqAnswer">Answer:</label>
+          <textarea id="faqAnswer" rows="4" placeholder="Provide the detailed answer..." required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelModalBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Save FAQ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript Code -->
+  <script src="script.js"></script>
+</body>
+</html>

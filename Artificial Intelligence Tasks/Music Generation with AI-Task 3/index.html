@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Music Generator Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="navbar">
+    <div class="logo">
+      <i data-lucide="music"></i>
+      <span>AI Music Gen Studio</span>
+    </div>
+    <div class="nav-links">
+      <a href="#pipeline"><i data-lucide="cpu"></i> Workflow Pipeline</a>
+      <a href="#generator"><i data-lucide="play-circle"></i> Audio Generator</a>
+      <a href="#code-section"><i data-lucide="code"></i> Python Pipeline Code</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Section 1: 5-Step Pipeline Guide -->
+    <section id="pipeline" class="section">
+      <h2 class="section-title"><i data-lucide="git-branch"></i> Task 3: Music Generation Workflow</h2>
+      <p class="section-subtitle">Deep learning workflow for training LSTMs on MIDI data using <code>music21</code>.</p>
+
+      <div class="steps-grid">
+        
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">01</span>
+            <h3>Collect MIDI Data</h3>
+          </div>
+          <p>Gather classical/jazz <code>.mid</code> files (e.g., Chopin, Bach, Lakh MIDI Dataset). Extract melodic tracks and multi-instrument arrangements.</p>
+          <div class="code-snippet">
+            <code>dataset/ classical/*.mid jazz/*.mid</code>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">02</span>
+            <h3>Preprocess with <code>music21</code></h3>
+          </div>
+          <p>Parse MIDI files into pitch strings and chords. Map unique pitch events to integer dictionaries for neural network training.</p>
+          <div class="code-snippet">
+            <code>notes = ['C4', 'E4', 'G4', 'C4.E4.G4']</code>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">03</span>
+            <h3>Build LSTM Model</h3>
+          </div>
+          <p>Construct a multi-layer Recurrent Neural Network (LSTM/GRU) with Dropout layers and Softmax classification output.</p>
+          <div class="code-snippet">
+            <code>LSTM(512) -> Dropout(0.3) -> Dense(vocab_size)</code>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">04</span>
+            <h3>Train & Sample</h3>
+          </div>
+          <p>Train with categorical cross-entropy. Sample predictions sequentially using a temperature parameter to control creativity.</p>
+          <div class="code-snippet">
+            <code>loss: 0.842 | Epoch 50/50 | Temp: 0.8</code>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">05</span>
+            <h3>Export to MIDI / Audio</h3>
+          </div>
+          <p>Convert predicted integer sequences back into <code>music21.note.Note</code> objects and stream synthesized Web Audio.</p>
+          <div class="code-snippet">
+            <code>output.midi -> FluidSynth -> .wav/.mp3</code>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 2: Interactive AI Music Playground -->
+    <section id="generator" class="section">
+      <h2 class="section-title"><i data-lucide="sliders"></i> Interactive AI Music Playground</h2>
+      <p class="section-subtitle">Synthesize new melodies using Web Audio API and view note activations live on the piano roll.</p>
+
+      <div class="generator-box">
+        <div class="controls-panel">
+          <div class="control-group">
+            <label for="genre-select"><i data-lucide="disc"></i> AI Style Preset:</label>
+            <select id="genre-select">
+              <option value="classical">Classical Counterpoint (Bach Style)</option>
+              <option value="jazz">Jazz Bebop Progression</option>
+              <option value="ambient">Ambient Cyberpunk Pad</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="bpm-input"><i data-lucide="clock"></i> Tempo (BPM): <span id="bpm-val">120</span></label>
+            <input type="range" id="bpm-input" min="60" max="180" value="120">
+          </div>
+
+          <div class="control-group">
+            <label for="temp-input"><i data-lucide="flame"></i> Creativity (Temperature): <span id="temp-val">0.8</span></label>
+            <input type="range" id="temp-input" min="0.1" max="1.5" step="0.1" value="0.8">
+          </div>
+
+          <div class="button-group">
+            <button id="generate-btn" class="btn primary-btn"><i data-lucide="sparkles"></i> Generate Sequence</button>
+            <button id="play-btn" class="btn success-btn" disabled><i data-lucide="play"></i> Play Melody</button>
+          </div>
+        </div>
+
+        <!-- Piano Roll Visualizer -->
+        <div class="visualizer-container">
+          <div class="visualizer-header">
+            <span>Piano Roll Matrix View</span>
+            <span id="status-badge" class="badge">Status: Ready</span>
+          </div>
+          <div id="piano-roll" class="piano-roll"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Full Python Backend Source Code -->
+    <section id="code-section" class="section">
+      <h2 class="section-title"><i data-lucide="terminal"></i> Complete Python Implementation</h2>
+      <p class="section-subtitle">Copy-pasteable scripts for parsing dataset, training LSTM, and writing output MIDI files.</p>
+
+      <div class="code-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="openTab(event, 'preprocess')">1. preprocess.py</button>
+          <button class="tab-btn" onclick="openTab(event, 'train')">2. train_lstm.py</button>
+          <button class="tab-btn" onclick="openTab(event, 'generate')">3. generate_midi.py</button>
+        </div>
+
+        <!-- Tab 1 -->
+        <div id="preprocess" class="tab-content active">
+          <div class="code-header">
+            <span>Preprocess MIDI files into integer sequences using music21</span>
+            <button class="copy-btn" onclick="copyCode('code-1')"><i data-lucide="copy"></i> Copy</button>
+          </div>
+          <pre><code id="code-1">import glob
+import pickle
+import numpy as np
+from music21 import converter, instrument, note, chord
+
+def prepare_midi_dataset(midi_dir="data/*.mid", sequence_length=100):
+    notes = []
+    
+    # Parse every MIDI file in directory
+    for file in glob.glob(midi_dir):
+        print(f"Parsing: {file}")
+        midi = converter.parse(file)
+        
+        try: # Get piano parts
+            s2 = instrument.partitionByInstrument(midi)
+            notes_to_parse = s2.parts[0].recurse() 
+        except: # Flat structure
+            notes_to_parse = midi.flat.notes
+
+        for element in notes_to_parse:
+            if isinstance(element, note.Note):
+                notes.append(str(element.pitch))
+            elif isinstance(element, chord.Chord):
+                notes.append('.'.join(str(n) for n in element.normalOrder))
+
+    # Create mappings
+    pitchnames = sorted(set(notes))
+    note_to_int = dict((note, number) for number, note in enumerate(pitchnames))
+    
+    network_input = []
+    network_output = []
+
+    for i in range(0, len(notes) - sequence_length, 1):
+        seq_in = notes[i:i + sequence_length]
+        seq_out = notes[i + sequence_length]
+        network_input.append([note_to_int[char] for char in seq_in])
+        network_output.append(note_to_int[seq_out])
+
+    n_patterns = len(network_input)
+    network_input = np.reshape(network_input, (n_patterns, sequence_length, 1))
+    network_input = network_input / float(len(pitchnames))
+
+    return network_input, network_output, pitchnames</code></pre>
+        </div>
+
+        <!-- Tab 2 -->
+        <div id="train" class="tab-content">
+          <div class="code-header">
+            <span>Build and Train Keras LSTM Model</span>
+            <button class="copy-btn" onclick="copyCode('code-2')"><i data-lucide="copy"></i> Copy</button>
+          </div>
+          <pre><code id="code-2">import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, Dropout, Activation
+from tensorflow.keras.callbacks import ModelCheckpoint
+
+def create_network(input_shape, vocab_size):
+    model = Sequential()
+    model.add(LSTM(512, input_shape=input_shape, recurrent_dropout=0.3, return_sequences=True))
+    model.add(LSTM(512, return_sequences=True, recurrent_dropout=0.3))
+    model.add(LSTM(512))
+    model.add(Dropout(0.3))
+    model.add(Dense(256))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.3))
+    model.add(Dense(vocab_size))
+    model.add(Activation('softmax'))
+    
+    model.compile(loss='sparse_categorical_crossentropy', optimizer='adam')
+    return model
+
+# Example execution:
+# model = create_network((100, 1), len(pitchnames))
+# checkpoint = ModelCheckpoint("weights.hdf5", monitor='loss', save_best_only=True)
+# model.fit(network_input, network_output, epochs=50, batch_size=64, callbacks=[checkpoint])</code></pre>
+        </div>
+
+        <!-- Tab 3 -->
+        <div id="generate" class="tab-content">
+          <div class="code-header">
+            <span>Generate Music and Export to MIDI File</span>
+            <button class="copy-btn" onclick="copyCode('code-3')"><i data-lucide="copy"></i> Copy</button>
+          </div>
+          <pre><code id="code-3">import numpy as np
+from music21 import stream, note, chord
+
+def generate_notes(model, network_input, pitchnames, int_to_note, n_generate=200):
+    start = np.random.randint(0, len(network_input)-1)
+    pattern = network_input[start]
+    prediction_output = []
+
+    for note_index in range(n_generate):
+        prediction_input = np.reshape(pattern, (1, len(pattern), 1))
+        prediction = model.predict(prediction_input, verbose=0)
+        
+        index = np.argmax(prediction)
+        result = int_to_note[index]
+        prediction_output.append(result)
+
+        pattern = np.append(pattern, index / float(len(pitchnames)))
+        pattern = pattern[1:len(pattern)]
+
+    return prediction_output
+
+def create_midi(prediction_output, filename="output.mid"):
+    offset = 0
+    output_notes = []
+
+    for pattern in prediction_output:
+        # Pattern is a chord
+        if ('.' in pattern) or pattern.isdigit():
+            notes_in_chord = pattern.split('.')
+            notes = []
+            for current_note in notes_in_chord:
+                new_note = note.Note(int(current_note))
+                new_note.storedInstrument = instrument.Piano()
+                notes.append(new_note)
+            new_chord = chord.Chord(notes)
+            new_chord.offset = offset
+            output_notes.append(new_chord)
+        # Pattern is a single note
+        else:
+            new_note = note.Note(pattern)
+            new_note.offset = offset
+            new_note.storedInstrument = instrument.Piano()
+            output_notes.append(new_note)
+
+        offset += 0.5
+
+    midi_stream = stream.Stream(output_notes)
+    midi_stream.write('midi', fp=filename)
+    print(f"Saved generated composition to {filename}")</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
