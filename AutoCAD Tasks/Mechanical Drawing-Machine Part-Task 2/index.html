@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanical Flange - 2D Technical Drawing Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="title-group">
+            <h1>Mechanical Flange Technical Drawing</h1>
+            <p>ISO/ASME Y14.5 Orthographic Projection & CAD Viewer</p>
+        </div>
+        <div class="toolbar">
+            <button id="btn-reset" class="btn">Reset View</button>
+            <button id="btn-measure" class="btn active">Measure Tool: ON</button>
+            <button id="btn-export-svg" class="btn primary">Export SVG</button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <section class="control-panel">
+                <h3>Layer Visibility</h3>
+                <label class="checkbox-label"><input type="checkbox" id="layer-geom" checked> Geometry (0_Geometry)</label>
+                <label class="checkbox-label"><input type="checkbox" id="layer-dims" checked> Dimensions (Dimensions)</label>
+                <label class="checkbox-label"><input type="checkbox" id="layer-center" checked> Centerlines (Centerline)</label>
+                <label class="checkbox-label"><input type="checkbox" id="layer-hatch" checked> Section Hatch (ANSI31)</label>
+            </section>
+
+            <section class="control-panel">
+                <h3>Component Properties</h3>
+                <ul class="spec-list">
+                    <li><strong>Material:</strong> Cast Iron (ASTM A48)</li>
+                    <li><strong>Outer Diameter:</strong> Ø160 mm</li>
+                    <li><strong>Bore Diameter:</strong> Ø40 H7</li>
+                    <li><strong>Pitch Circle (PCD):</strong> Ø120 mm</li>
+                    <li><strong>Mounting Holes:</strong> 4 × Ø14</li>
+                </ul>
+            </section>
+
+            <section class="control-panel">
+                <h3>AutoCAD AutoLISP Generator</h3>
+                <p class="small-text">Quick code to draw this flange in AutoCAD:</p>
+                <textarea readonly class="code-box">(defun c:DrawFlange () (command "CIRCLE" "0,0" 80) (command "CIRCLE" "0,0" 20) (princ "\nFlange drawn!"))</textarea>
+            </section>
+        </aside>
+
+        <!-- Main CAD Canvas Viewport -->
+        <section class="canvas-viewport">
+            <div class="cad-grid-bg">
+                <canvas id="cadCanvas" width="900" height="700"></canvas>
+            </div>
+            <div id="measure-tooltip" class="tooltip hidden">Click two points to measure</div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoCAD Task 4: 2BHK Residential Project</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="logo">
+      <i class="fa-solid fa-compass-drafting"></i>
+      <span>AutoCAD Project Viewer</span>
+    </div>
+    <nav class="nav-links">
+      <button class="nav-btn active" data-target="report-section">Project Report</button>
+      <button class="nav-btn" data-target="blueprint-section">Interactive Plan</button>
+    </nav>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- SECTION 1: PROJECT REPORT -->
+    <section id="report-section" class="tab-content active">
+      <div class="card">
+        <span class="badge">TASK 4: REAL-WORLD PROJECT</span>
+        <h1>Project Report: 2BHK Residential Building Design</h1>
+        <p class="subtitle">Domain: Architectural & Civil Drafting using AutoCAD</p>
+        
+        <hr class="divider">
+
+        <h2>1. Executive Summary</h2>
+        <p>
+          This project presents a comprehensive 2D architectural blueprint and structural sectional plan for a single-storey 2BHK residential building. Developed adhering to standard drafting guidelines, local municipal bylaws, and architectural standards, this project demonstrates accurate spatial planning, precise layer organization, line-weight management, and structural annotation techniques in AutoCAD.
+        </p>
+
+        <h2>2. Design Specifications & Building Parameters</h2>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Specification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Plot Dimensions</strong></td>
+                <td>30 ft × 40 ft (1,200 sq. ft. total area)</td>
+              </tr>
+              <tr>
+                <td><strong>Built-up Area</strong></td>
+                <td>Approx. 850 sq. ft.</td>
+              </tr>
+              <tr>
+                <td><strong>Structure Type</strong></td>
+                <td>Load-bearing / Reinforced Concrete Frame</td>
+              </tr>
+              <tr>
+                <td><strong>Wall Thickness</strong></td>
+                <td>Exterior: 9 inches (230 mm) | Interior: 4.5 inches (115 mm)</td>
+              </tr>
+              <tr>
+                <td><strong>Ceiling Height</strong></td>
+                <td>10 ft (3,048 mm) from finished floor level (FFL)</td>
+              </tr>
+              <tr>
+                <td><strong>Plinth Height</strong></td>
+                <td>1 ft 6 inches (450 mm) above ground level (GL)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>3. Drafting Methodology & AutoCAD Workflow</h2>
+        <ol class="workflow-list">
+          <li>
+            <strong>Unit & Grid Configuration:</strong>
+            Set unit type to <code>Architectural</code> with precision set to <code>0'-0"</code>. Established plot limits at <code>50',50'</code> and turned on Object Snap (<code>F3</code>) and Ortho Mode (<code>F8</code>).
+          </li>
+          <li>
+            <strong>Layer Management:</strong>
+            Created distinct functional layers to ensure CAD standard compliance:
+            <ul>
+              <li><code>0_WALLS</code> (Cyan, Lineweight 0.35 mm)</li>
+              <li><code>0_DOORS_WINDOWS</code> (Yellow, Lineweight 0.25 mm)</li>
+              <li><code>0_DIMENSIONS</code> (Red, Lineweight 0.15 mm)</li>
+              <li><code>0_HATCH</code> (Dark Gray, Lineweight 0.09 mm)</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Layout Drafting:</strong>
+            Formed boundary lines using <code>OFFSET</code> and <code>TRIM</code>. Inserted block symbols for doors, windows, and sanitary fixtures. Applied <code>ANSI31</code> hatch patterns for wall cutouts in section views.
+          </li>
+          <li>
+            <strong>Plotting & Export:</strong>
+            Configured standard layout viewports in Paper Space at 1:50 scale and exported to high-resolution PDF for client submittal.
+          </li>
+        </ol>
+
+        <h2>4. Key Deliverables</h2>
+        <ul class="deliverables-grid">
+          <li><i class="fa-solid fa-file-code"></i> <strong>Residential_Floor_Plan.dwg</strong></li>
+          <li><i class="fa-solid fa-file-code"></i> <strong>Elevation_Sectional_View.dwg</strong></li>
+          <li><i class="fa-solid fa-file-pdf"></i> <strong>Task4_AutoCAD_Project_Report.pdf</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE BLUEPRINT -->
+    <section id="blueprint-section" class="tab-content">
+      <div class="card">
+        <h2>Interactive 2D Site Plan & Floor Layout</h2>
+        <p class="subtitle">Use controls below to toggle layers and inspect architectural elements</p>
+
+        <!-- Canvas Controls -->
+        <div class="controls-bar">
+          <label class="control-item">
+            <input type="checkbox" id="toggle-walls" checked> Walls (9" & 4.5")
+          </label>
+          <label class="control-item">
+            <input type="checkbox" id="toggle-doors" checked> Doors & Windows
+          </label>
+          <label class="control-item">
+            <input type="checkbox" id="toggle-dims" checked> Dimensions & Labels
+          </label>
+          <button id="reset-canvas" class="btn-secondary"><i class="fa-solid fa-rotate-right"></i> Reset View</button>
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="canvas-wrapper">
+          <canvas id="blueprintCanvas" width="800" height="600"></canvas>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>AutoCAD Real-World Project Submission | Created for VS Code Deployment</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

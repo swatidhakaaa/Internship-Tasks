@@ -1,0 +1,194 @@
+:root {
+    --bg-dark: #121619;
+    --panel-bg: #1a2126;
+    --border-color: #2c353d;
+    --cad-grid: #1e262c;
+    --accent-cyan: #00e5ff;
+    --accent-orange: #ff9100;
+    --text-main: #e0e6ed;
+    --text-muted: #8a99a8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header */
+.app-header {
+    height: 64px;
+    background-color: var(--panel-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+}
+
+.title-group h1 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.title-group p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    background-color: #243038;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #2f3e48;
+    border-color: var(--accent-cyan);
+}
+
+.btn.active {
+    background-color: rgba(0, 229, 255, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.btn.primary {
+    background-color: var(--accent-cyan);
+    color: #000;
+    font-weight: 600;
+    border: none;
+}
+
+.btn.primary:hover {
+    background-color: #00b8d4;
+}
+
+/* Workspace Layout */
+.workspace {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 64px);
+}
+
+.sidebar {
+    width: 320px;
+    background-color: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: auto;
+}
+
+.control-panel h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    accent-color: var(--accent-cyan);
+    width: 16px;
+    height: 16px;
+}
+
+.spec-list {
+    list-style: none;
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.spec-list li strong {
+    color: var(--accent-orange);
+}
+
+.small-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.code-box {
+    width: 100%;
+    height: 80px;
+    background-color: #0d1114;
+    color: var(--accent-cyan);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    resize: none;
+}
+
+/* Canvas Viewport */
+.canvas-viewport {
+    flex: 1;
+    position: relative;
+    background-image: 
+        linear-gradient(var(--cad-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--cad-grid) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+canvas {
+    background-color: rgba(18, 22, 25, 0.85);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid var(--border-color);
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--accent-cyan);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    border: 1px solid var(--accent-cyan);
+    pointer-events: none;
+}
+
+.tooltip.hidden {
+    display: none;
+}

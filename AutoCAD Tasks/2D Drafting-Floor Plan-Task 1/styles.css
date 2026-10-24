@@ -1,0 +1,256 @@
+:root {
+  --primary-color: #0f172a;
+  --accent-color: #2563eb;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #334155;
+  --border-color: #cbd5e1;
+  --wall-color: #1e293b;
+  --door-color: #dc2626;
+  --window-color: #0ea5e9;
+  --dim-color: #16a34a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+  padding: 20px;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.controls-bar {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #f1f5f9;
+}
+
+.btn.active {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border-color: var(--accent-color);
+}
+
+.blueprint-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.canvas-wrapper {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#floorPlanSvg {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+}
+
+/* SVG Blueprint Styles */
+.outer-wall {
+  fill: var(--wall-color);
+  stroke: #000;
+  stroke-width: 2;
+}
+
+.wall-inner {
+  fill: var(--wall-color);
+}
+
+.room-bg {
+  fill: #f1f5f9;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.room-bg:hover {
+  fill: #dbeafe;
+  opacity: 0.8;
+}
+
+.window {
+  fill: #e0f2fe;
+  stroke: var(--window-color);
+  stroke-width: 2;
+}
+
+.door-leaf {
+  stroke: var(--door-color);
+  stroke-width: 3;
+}
+
+.door-swing {
+  fill: none;
+  stroke: var(--door-color);
+  stroke-width: 1.5;
+  stroke-dasharray: 4, 4;
+}
+
+/* Furniture Elements */
+.furniture {
+  stroke-width: 1.5;
+  rx: 4;
+}
+
+.furniture.bed {
+  fill: #bfdbfe;
+  stroke: #1d4ed8;
+}
+
+.furniture.sofa {
+  fill: #bbf7d0;
+  stroke: #15803d;
+}
+
+.furniture.dining {
+  fill: #fed7aa;
+  stroke: #c2410c;
+}
+
+.furniture.kitchen-counter {
+  fill: #e9d5ff;
+  stroke: #6b21a8;
+}
+
+.furniture-text {
+  font-size: 12px;
+  font-weight: bold;
+  fill: #1e293b;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.furniture-text.vertical {
+  writing-mode: tb;
+}
+
+/* Text Labels */
+.room-title {
+  font-size: 14px;
+  font-weight: bold;
+  fill: #0f172a;
+  text-anchor: middle;
+}
+
+.room-sub {
+  font-size: 11px;
+  fill: #475569;
+  text-anchor: middle;
+}
+
+/* Dimensions */
+.dim-line {
+  stroke: var(--dim-color);
+  stroke-width: 1.5;
+}
+
+.dim-tick {
+  stroke: var(--dim-color);
+  stroke-width: 2;
+}
+
+.dim-text {
+  font-size: 12px;
+  font-weight: bold;
+  fill: var(--dim-color);
+  text-anchor: middle;
+}
+
+.dim-text.vertical {
+  transform: rotate(-90deg);
+  transform-origin: 35px 400px;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  height: fit-content;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  color: var(--primary-color);
+}
+
+.spec-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+}
+
+.info-box {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #eff6ff;
+  border-left: 4px solid var(--accent-color);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #1e40af;
+}

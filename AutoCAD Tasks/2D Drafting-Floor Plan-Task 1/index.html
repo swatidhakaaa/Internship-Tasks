@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2D Floor Plan - Residential House (2BHK)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <h1>2D Residential House Floor Plan</h1>
+      <p class="subtitle">Interactive 2BHK Layout Viewer & Architectural Blueprint</p>
+    </header>
+
+    <main class="main-content">
+      <section class="controls-bar">
+        <button id="toggleFurnitureBtn" class="btn active">Toggle Furniture</button>
+        <button id="toggleDimensionsBtn" class="btn active">Toggle Dimensions</button>
+        <button id="resetZoomBtn" class="btn secondary">Reset View</button>
+      </section>
+
+      <section class="blueprint-card">
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <svg id="floorPlanSvg" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="0.5" />
+              </pattern>
+            </defs>
+
+            <!-- Background Grid -->
+            <rect width="1000" height="800" fill="url(#grid)" />
+
+            <!-- Outer Wall Shadow/Fill -->
+            <rect x="100" y="100" width="800" height="600" class="outer-wall" />
+
+            <!-- Rooms (Background Colors for clarity) -->
+            <g id="roomsGroup">
+              <rect x="123" y="123" width="357" height="365" class="room-bg" data-room="Bedroom 1" data-size="3.57m x 3.65m" />
+              <rect x="491.5" y="123" width="200" height="365" class="room-bg" data-room="Common Bathroom" data-size="2.00m x 3.65m" />
+              <rect x="703" y="123" width="374" height="365" class="room-bg" data-room="Bedroom 2" data-size="3.74m x 3.65m" />
+              <rect x="123" y="500" width="577" height="277" class="room-bg" data-room="Living & Dining" data-size="5.77m x 2.77m" />
+              <rect x="711.5" y="500" width="365.5" height="277" class="room-bg" data-room="Kitchen" data-size="3.65m x 2.77m" />
+            </g>
+
+            <!-- Internal Walls -->
+            <g class="walls-group">
+              <!-- Inner Cavity Cutout -->
+              <rect x="123" y="123" width="754" height="554" fill="#ffffff" />
+              
+              <!-- Horizontal Main Divider Wall -->
+              <rect x="123" y="488.5" width="754" height="11.5" class="wall-inner" />
+              
+              <!-- Vertical Partition Walls Top -->
+              <rect x="480" y="123" width="11.5" height="365.5" class="wall-inner" />
+              <rect x="691.5" y="123" width="11.5" height="365.5" class="wall-inner" />
+              
+              <!-- Vertical Partition Wall Bottom -->
+              <rect x="700" y="500" width="11.5" height="177" class="wall-inner" />
+            </g>
+
+            <!-- Windows (Blue Openings) -->
+            <g class="windows-group">
+              <rect x="220" y="100" width="120" height="23" class="window" />
+              <rect x="530" y="100" width="100" height="23" class="window" />
+              <rect x="770" y="100" width="120" height="23" class="window" />
+              <rect x="770" y="677" width="120" height="23" class="window" />
+              <rect x="100" y="250" width="23" height="120" class="window" />
+            </g>
+
+            <!-- Doors and Swing Paths (Red Lines) -->
+            <g class="doors-group">
+              <!-- Main Entrance Door -->
+              <path d="M 320 677 A 80 80 0 0 1 400 597" class="door-swing" />
+              <line x1="320" y1="677" x2="320" y2="597" class="door-leaf" />
+
+              <!-- Bed 1 Door -->
+              <path d="M 200 488.5 A 70 70 0 0 1 270 418.5" class="door-swing" />
+              <line x1="200" y1="488.5" x2="200" y2="418.5" class="door-leaf" />
+
+              <!-- Bathroom Door -->
+              <path d="M 500 488.5 A 60 60 0 0 1 560 428.5" class="door-swing" />
+              <line x1="500" y1="488.5" x2="500" y2="428.5" class="door-leaf" />
+
+              <!-- Bed 2 Door -->
+              <path d="M 720 488.5 A 70 70 0 0 1 790 418.5" class="door-swing" />
+              <line x1="720" y1="488.5" x2="720" y2="418.5" class="door-leaf" />
+            </g>
+
+            <!-- Furniture Layout -->
+            <g id="furnitureGroup">
+              <!-- Bedroom 1 Bed -->
+              <rect x="150" y="160" width="160" height="190" class="furniture bed" />
+              <text x="230" y="260" class="furniture-text">BED</text>
+
+              <!-- Bedroom 2 Bed -->
+              <rect x="715" y="160" width="160" height="190" class="furniture bed" />
+              <text x="795" y="260" class="furniture-text">BED</text>
+
+              <!-- Living Room Sofa -->
+              <rect x="150" y="600" width="200" height="60" class="furniture sofa" />
+              <text x="250" y="635" class="furniture-text">SOFA</text>
+
+              <!-- Dining Table -->
+              <rect x="420" y="560" width="140" height="90" class="furniture dining" />
+              <text x="490" y="610" class="furniture-text">DINING</text>
+
+              <!-- Kitchen Counter -->
+              <rect x="711.5" y="500" width="60" height="177" class="furniture kitchen-counter" />
+              <text x="741.5" y="590" class="furniture-text vertical">COUNTER</text>
+            </g>
+
+            <!-- Room Titles & Labels -->
+            <g class="labels-group">
+              <text x="300" y="320" class="room-title">BEDROOM 1</text>
+              <text x="300" y="340" class="room-sub">3.57m × 3.65m</text>
+
+              <text x="585" y="320" class="room-title">BATHROOM</text>
+              <text x="585" y="340" class="room-sub">2.00m × 3.65m</text>
+
+              <text x="785" y="320" class="room-title">BEDROOM 2</text>
+              <text x="785" y="340" class="room-sub">3.74m × 3.65m</text>
+
+              <text x="410" y="530" class="room-title">LIVING & DINING ROOM</text>
+              <text x="410" y="550" class="room-sub">5.77m × 2.77m</text>
+
+              <text x="795" y="530" class="room-title">KITCHEN</text>
+              <text x="795" y="550" class="room-sub">3.65m × 2.77m</text>
+            </g>
+
+            <!-- Dimension Annotations -->
+            <g id="dimensionsGroup" class="dimensions-group">
+              <!-- Horizontal Dimension Line -->
+              <line x1="100" y1="60" x2="900" y2="60" class="dim-line" />
+              <line x1="100" y1="50" x2="100" y2="70" class="dim-tick" />
+              <line x1="900" y1="50" x2="900" y2="70" class="dim-tick" />
+              <text x="500" y="48" class="dim-text">TOTAL WIDTH: 10.00 m</text>
+
+              <!-- Vertical Dimension Line -->
+              <line x1="50" y1="100" x2="50" y2="700" class="dim-line" />
+              <line x1="40" y1="100" x2="60" y2="100" class="dim-tick" />
+              <line x1="40" y1="700" x2="60" y2="700" class="dim-tick" />
+              <text x="35" y="400" class="dim-text vertical">TOTAL DEPTH: 8.00 m</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Details Sidebar/Card -->
+      <aside class="sidebar">
+        <h2>Specifications</h2>
+        <div class="spec-item">
+          <strong>Building Plot:</strong> 10.0m × 8.0m (80 sq.m)
+        </div>
+        <div class="spec-item">
+          <strong>Outer Walls:</strong> 230mm (9 in)
+        </div>
+        <div class="spec-item">
+          <strong>Inner Partitions:</strong> 115mm (4.5 in)
+        </div>
+        <div class="spec-item">
+          <strong>Bedrooms:</strong> 2
+        </div>
+        <div class="spec-item">
+          <strong>Bathrooms:</strong> 1 Common
+        </div>
+
+        <div id="infoBox" class="info-box">
+          <p>Hover over or tap any room on the plan to inspect detailed dimensions.</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
